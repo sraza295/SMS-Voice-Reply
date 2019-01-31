@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SMS Voice Reply</string>
+    <string name="textview">Query</string>
+    <string name="textview1">Answer</string>
+</resources>
