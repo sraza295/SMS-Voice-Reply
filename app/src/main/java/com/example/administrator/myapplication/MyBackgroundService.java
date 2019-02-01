@@ -51,10 +51,12 @@ public class MyBackgroundService extends Service implements TextToSpeech.OnInitL
     Result result;
 
     BroadcastReceiver sendBroadcastReceiver;
+    CustomLog customLog;
 
     @Override
     public void onCreate()
     {
+        customLog = new CustomLog();
         mainHandler = new Handler();
         sendBroadcastReceiver = new SentReceiver();
         //sendSMS("+917979066930", "hello how are you? ");
@@ -85,6 +87,7 @@ public class MyBackgroundService extends Service implements TextToSpeech.OnInitL
         //countSpeak=0;
         senderPhoneNo = phoneNo;
         String toSpeak="Meesage from "+contactName+" "+message;
+        customLog.logSave("To Speak : "+toSpeak);
         Toast.makeText(this, toSpeak, Toast.LENGTH_SHORT).show();
         listenResponse(toSpeak);
     }

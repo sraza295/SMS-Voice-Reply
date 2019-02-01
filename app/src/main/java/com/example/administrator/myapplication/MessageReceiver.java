@@ -25,6 +25,8 @@ public class MessageReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent)
     {
+        CustomLog customLog=new CustomLog();
+
         context.startService(new Intent(context, MyBackgroundService.class));
 
         Bundle data = intent.getExtras();
@@ -33,21 +35,25 @@ public class MessageReceiver extends BroadcastReceiver
         {
             SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
             String originatingAddress =smsMessage.getDisplayOriginatingAddress();
-            originatingAddress= originatingAddress.replaceAll("[^0-9]", "");
+            customLog.logSave("Before Regex originatingAddress : "+originatingAddress);
+            //originatingAddress= originatingAddress.replaceAll("[^0-9]", "");
             System.out.println(originatingAddress);
 
                 try {
                     Long num = Long.valueOf(originatingAddress);
-                    System.out.println("is a number");
+                    System.out.println("This is valid a number");
+                    customLog.logSave("This is valid a number");
                 } catch (NumberFormatException e) {
                     // TODO: handle exception
                     System.out.println("is not a number");
+                    customLog.logSave("This is not valid a number");
                     return;
                 }
 
             String contactName = getContactName(originatingAddress, context);
                 if(contactName==null)
                     contactName="Unknown Number";
+            customLog.logSave("contactName : "+contactName);
             String message=smsMessage.getDisplayMessageBody();
              myBackgroundServiceListener.messageReceived(originatingAddress,contactName,message);
         }
